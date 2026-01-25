@@ -1,12 +1,16 @@
 import '../../styles/auth/auth-form.css';
 import { useState } from 'react';
 import SocialLogin from './SocialLogin';
+import { login } from '../../services/api';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 function LoginForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
+    const [apiError, setApiError] = useState('');
 
     const validate = () => {
         const newErrors = {};
@@ -18,7 +22,8 @@ function LoginForm() {
         if (!password) {
             newErrors.password = 'La contraseña es obligatoria';
         } else if (password.length < 6) {
-            newErrors.password = 'La contraseña debe tener al menos 6 caracteres';
+            newErrors.password =
+                'La contraseña debe tener al menos 6 caracteres';
         }
 
         setErrors(newErrors);
@@ -26,17 +31,29 @@ function LoginForm() {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const isValid = validate();
-
         if (!isValid) return;
 
-        console.log({
-            email,
-            password,
-        });
+        setLoading(true);
+        setApiError('');
+
+        try {
+            const response = await login({
+                email,
+                password,
+            });
+
+            console.log('Login exitoso:', response);
+
+            
+        } catch (error) {
+            setApiError(error.message || 'Error al iniciar sesión');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -70,18 +87,29 @@ function LoginForm() {
                         onClick={() => setShowPassword(!showPassword)}
                         aria-label="Mostrar u ocultar contraseña"
                     >
+                        {showPassword ? <FaEyeSlash /> : <FaEye />}
                     </button>
                 </div>
                 {errors.password && (
                     <span className="auth-form__error">{errors.password}</span>
                 )}
 
+                {apiError && (
+                    <div className="auth-form__api-error">
+                        {apiError}
+                    </div>
+                )}
+
                 <a href="#" className="auth-form__forgot">
                     Olvidé mi contraseña
                 </a>
 
-                <button className="auth-form__button" type="submit">
-                    Iniciar sesión
+                <button
+                    className="auth-form__button"
+                    type="submit"
+                    disabled={loading}
+                >
+                    {loading ? 'Ingresando...' : 'Iniciar sesión'}
                 </button>
 
                 <SocialLogin />
