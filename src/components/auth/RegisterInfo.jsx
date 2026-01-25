@@ -1,19 +1,19 @@
-function LoginInfo({ onChangeView }) {
+function RegisterInfo({ onChangeView }) {
     return (
         <section>
             <img src="/logo.svg" alt="Logo" />
 
-            <h1>Bienvenido</h1>
-            <p>Ingresa y disfruta</p>
+            <h1>Regístrate</h1>
+            <p>Te invitamos a crear tu cuenta</p>
 
             <p>
-                Si aún no tienes una cuenta puedes{' '}
+                ¿Ya tienes una cuenta?{' '}
                 <button
                     type="button"
-                    onClick={() => onChangeView('register')}
+                    onClick={() => onChangeView('login')}
                     style={{ background: 'none', border: 'none', color: 'blue', cursor: 'pointer' }}
                 >
-                    Registrarte aquí
+                    Inicia sesión aquí
                 </button>
             </p>
 
@@ -22,4 +22,4 @@ function LoginInfo({ onChangeView }) {
     );
 }
 
-export default LoginInfo;
+export default RegisterInfo;
