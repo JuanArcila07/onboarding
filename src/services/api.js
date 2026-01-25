@@ -1,4 +1,4 @@
-const API_URL = 'https://7wmbjxblzi.execute-api.us-east-1.amazonaws.com';
+const API_URL = 'https://7wmbjxblzi.execute-api.us-east-1.amazonaws.com/';
 
 /**
  * Función base para peticiones POST
