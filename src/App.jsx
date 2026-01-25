@@ -1,14 +1,15 @@
-import Header from './components/header';
+import { useState } from 'react';
 import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
+  const [view, setView] = useState('login');
+
   return (
     <>
-    {/*}
-      <Header />
-      */}
-      <Login />
-    </>   
+      {view === 'login' && <Login onChangeView={setView} />}
+      {view === 'register' && <Register onChangeView={setView} />}
+    </>
   );
 }
 
