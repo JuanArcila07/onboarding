@@ -1,6 +1,7 @@
+import { Link } from 'react-router-dom';
 import '../../styles/auth/auth-info.css';
 
-function LoginInfo({ onChangeView }) {
+function LoginInfo() {
     return (
         <section className="auth-info">
             <img
@@ -14,13 +15,9 @@ function LoginInfo({ onChangeView }) {
 
             <p className="auth-info__text">
                 Si aún no tienes una cuenta puedes{' '}
-                <button
-                    type="button"
-                    className="auth-info__link"
-                    onClick={() => onChangeView('register')}
-                >
-                    Registrarte aquí!
-                </button>
+                <Link to="/register" className="auth-info__link">
+                    Registrarte aquí
+                </Link>
             </p>
 
         </section>
