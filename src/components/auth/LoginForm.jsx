@@ -6,17 +6,44 @@ function LoginForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [errors, setErrors] = useState({});
+
+    const validate = () => {
+        const newErrors = {};
+
+        if (!email.trim()) {
+            newErrors.email = 'El email o usuario es obligatorio';
+        }
+
+        if (!password) {
+            newErrors.password = 'La contraseña es obligatoria';
+        } else if (password.length < 6) {
+            newErrors.password = 'La contraseña debe tener al menos 6 caracteres';
+        }
+
+        setErrors(newErrors);
+
+        return Object.keys(newErrors).length === 0;
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log({ email, password });
+
+        const isValid = validate();
+
+        if (!isValid) return;
+
+        console.log({
+            email,
+            password,
+        });
     };
 
     return (
         <section className="auth-form">
             <h2 className="auth-form__title">Iniciar sesión</h2>
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} noValidate>
                 <input
                     className="auth-form__input"
                     type="text"
@@ -24,6 +51,9 @@ function LoginForm() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
+                {errors.email && (
+                    <span className="auth-form__error">{errors.email}</span>
+                )}
 
                 <div className="auth-form__password">
                     <input
@@ -38,10 +68,13 @@ function LoginForm() {
                         type="button"
                         className="auth-form__toggle"
                         onClick={() => setShowPassword(!showPassword)}
+                        aria-label="Mostrar u ocultar contraseña"
                     >
-                        👁
                     </button>
                 </div>
+                {errors.password && (
+                    <span className="auth-form__error">{errors.password}</span>
+                )}
 
                 <a href="#" className="auth-form__forgot">
                     Olvidé mi contraseña
