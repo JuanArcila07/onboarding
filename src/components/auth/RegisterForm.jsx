@@ -2,6 +2,7 @@ import '../../styles/auth/auth-form.css';
 import { useState } from 'react';
 import SocialLogin from './SocialLogin';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { register } from '../../services/api';
 
 function RegisterForm() {
     const [email, setEmail] = useState('');
@@ -12,6 +13,8 @@ function RegisterForm() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
+    const [apiError, setApiError] = useState('');
 
     const validateEmail = (email) => {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -47,7 +50,8 @@ function RegisterForm() {
             newErrors.confirmPassword =
                 'Debes confirmar la contraseña';
         } else if (password !== confirmPassword) {
-            newErrors.confirmPassword = 'Las contraseñas no coinciden';
+            newErrors.confirmPassword =
+                'Las contraseñas no coinciden';
         }
 
         setErrors(newErrors);
@@ -55,20 +59,33 @@ function RegisterForm() {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const isValid = validate();
-
         if (!isValid) return;
 
-        console.log({
-            email,
-            username,
-            phone,
-            password,
-            confirmPassword,
-        });
+        setLoading(true);
+        setApiError('');
+
+        try {
+            const response = await register({
+                email,
+                username,
+                phone,
+                password,
+            });
+
+            console.log('Registro exitoso:', response);
+
+            // En el siguiente feature:
+            // - redirigir al login
+            // - mostrar mensaje de éxito
+        } catch (error) {
+            setApiError(error.message || 'Error al registrarse');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -119,12 +136,10 @@ function RegisterForm() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-
                     <button
                         type="button"
                         className="auth-form__toggle"
                         onClick={() => setShowPassword(!showPassword)}
-                        aria-label="Mostrar u ocultar contraseña"
                     >
                         {showPassword ? <FaEyeSlash /> : <FaEye />}
                     </button>
@@ -138,21 +153,23 @@ function RegisterForm() {
                 <div className="auth-form__password">
                     <input
                         className="auth-form__input"
-                        type={showConfirmPassword ? 'text' : 'password'}
+                        type={
+                            showConfirmPassword ? 'text' : 'password'
+                        }
                         placeholder="Confirmar contraseña"
                         value={confirmPassword}
                         onChange={(e) =>
                             setConfirmPassword(e.target.value)
                         }
                     />
-
                     <button
                         type="button"
                         className="auth-form__toggle"
                         onClick={() =>
-                            setShowConfirmPassword(!showConfirmPassword)
+                            setShowConfirmPassword(
+                                !showConfirmPassword
+                            )
                         }
-                        aria-label="Mostrar u ocultar confirmación"
                     >
                         {showConfirmPassword ? (
                             <FaEyeSlash />
@@ -167,8 +184,18 @@ function RegisterForm() {
                     </span>
                 )}
 
-                <button className="auth-form__button" type="submit">
-                    Regístrate
+                {apiError && (
+                    <div className="auth-form__api-error">
+                        {apiError}
+                    </div>
+                )}
+
+                <button
+                    className="auth-form__button"
+                    type="submit"
+                    disabled={loading}
+                >
+                    {loading ? 'Registrando...' : 'Regístrate'}
                 </button>
 
                 <SocialLogin />
