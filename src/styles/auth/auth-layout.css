@@ -1,0 +1,41 @@
+.auth-container {
+  display: flex;
+  min-height: 100vh;
+  padding: 0 80px;
+  box-sizing: border-box;
+}
+
+/* COLUMNAS */
+.auth-left,
+.auth-center,
+.auth-right {
+  flex: 1;
+  display: flex;
+}
+
+/* INFO (izquierda) */
+.auth-left {
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-top: 100px;
+}
+
+/* ILUSTRACIÓN (centro, un poco más abajo) */
+.auth-center {
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 140px;
+}
+
+/* FORM (derecha, más arriba que la info) */
+.auth-right {
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding-top: 40px;
+}
+
+/* ILUSTRACIÓN */
+.auth-illustration {
+  max-width: 100%;
+  height: auto;
+}

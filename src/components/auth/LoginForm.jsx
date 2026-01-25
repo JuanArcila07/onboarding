@@ -1,3 +1,4 @@
+import '../../styles/auth/auth-form.css';
 import { useState } from 'react';
 import SocialLogin from './SocialLogin';
 
@@ -12,38 +13,47 @@ function LoginForm() {
     };
 
     return (
-        <secction>
-            <h2>Iniciar Sesión</h2>
+        <section className="auth-form">
+            <h2 className="auth-form__title">Iniciar sesión</h2>
 
             <form onSubmit={handleSubmit}>
                 <input
+                    className="auth-form__input"
                     type="text"
                     placeholder="Email o nombre de usuario"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
 
-                <input
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="Contraseña"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
+                <div className="auth-form__password">
+                    <input
+                        className="auth-form__input"
+                        type={showPassword ? 'text' : 'password'}
+                        placeholder="Contraseña"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
 
-                <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                >
-                    👁
+                    <button
+                        type="button"
+                        className="auth-form__toggle"
+                        onClick={() => setShowPassword(!showPassword)}
+                    >
+                        👁
+                    </button>
+                </div>
+
+                <a href="#" className="auth-form__forgot">
+                    Olvidé mi contraseña
+                </a>
+
+                <button className="auth-form__button" type="submit">
+                    Iniciar sesión
                 </button>
-
-                <a href="#">Olvidé mi contraseña</a>
-
-                <button type="submit">Iniciar Sesión</button>
 
                 <SocialLogin />
             </form>
-        </secction>
+        </section>
     );
 }
 
