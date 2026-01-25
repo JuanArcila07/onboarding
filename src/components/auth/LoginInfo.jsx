@@ -1,23 +1,28 @@
+import '../../styles/auth/auth-info.css';
+
 function LoginInfo({ onChangeView }) {
     return (
-        <section>
-            <img src="/logo.svg" alt="Logo" />
+        <section className="auth-info">
+            <img
+                className="auth-info__logo"
+                src="/logo.svg"
+                alt="Logo"
+            />
 
-            <h1>Bienvenido</h1>
-            <p>Ingresa y disfruta</p>
+            <h1 className="auth-info__title">Bienvenido</h1>
+            <p className="main-text">Ingresa y disfruta</p>
 
-            <p>
+            <p className="auth-info__text">
                 Si aún no tienes una cuenta puedes{' '}
                 <button
                     type="button"
+                    className="auth-info__link"
                     onClick={() => onChangeView('register')}
-                    style={{ background: 'none', border: 'none', color: 'blue', cursor: 'pointer' }}
                 >
-                    Registrarte aquí
+                    Registrarte aquí!
                 </button>
             </p>
 
-            <img src="/illustration.png" alt="Ilustración" />
         </section>
     );
 }

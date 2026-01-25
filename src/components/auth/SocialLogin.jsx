@@ -1,20 +1,33 @@
+import '../../styles/auth/social-login.css';
 import { FaFacebookF, FaApple, FaGoogle } from 'react-icons/fa';
 
 function SocialLogin() {
   return (
-    <div>
-      <p>o continúa con</p>
+    <div className="social-login">
+      <p className="social-login__text">o continúa con</p>
 
-      <div>
-        <button aria-label="Login con Facebook">
+      <div className="social-login__buttons">
+        <button
+          type="button"
+          className="social-login__btn facebook"
+          aria-label="Login con Facebook"
+        >
           <FaFacebookF />
         </button>
 
-        <button aria-label="Login con Apple">
+        <button
+          type="button"
+          className="social-login__btn apple"
+          aria-label="Login con Apple"
+        >
           <FaApple />
         </button>
 
-        <button aria-label="Login con Google">
+        <button
+          type="button"
+          className="social-login__btn google"
+          aria-label="Login con Google"
+        >
           <FaGoogle />
         </button>
       </div>
