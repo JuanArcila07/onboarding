@@ -1,5 +1,6 @@
 import '../../styles/auth/auth-form.css';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import SocialLogin from './SocialLogin';
 import { login } from '../../services/api';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -14,6 +15,8 @@ function LoginForm() {
     const [loading, setLoading] = useState(false);
     const [apiError, setApiError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+
+    const navigate = useNavigate(); // ✅ navegación
 
     /* ======================
        VALIDACIONES
@@ -56,16 +59,29 @@ function LoginForm() {
             });
 
             console.log('Login exitoso:', response);
-            setSuccessMessage('Inicio de sesión exitoso. Bienvenido!'); // ✅ mensaje de éxito
+
+            setSuccessMessage('Inicio de sesión exitoso. Bienvenido!');
+
+            // ✅ REDIRECCIÓN A ENCUESTA
+            setTimeout(() => {
+                navigate('/survey');
+            }, 1200);
+
         } catch (error) {
             const msg = error.message?.toLowerCase();
 
             if (msg.includes('contraseña incorrecta')) {
-                setApiError('La contraseña ingresada no es válida. Intenta nuevamente.');
+                setApiError(
+                    'La contraseña ingresada no es válida. Intenta nuevamente.'
+                );
             } else if (msg.includes('usuario no registrado')) {
-                setApiError('No encontramos tu usuario. Verifica los datos o regístrate.');
+                setApiError(
+                    'No encontramos tu usuario. Verifica los datos o regístrate.'
+                );
             } else {
-                setApiError('No se pudo iniciar sesión. Por favor intenta más tarde.');
+                setApiError(
+                    'No se pudo iniciar sesión. Por favor intenta más tarde.'
+                );
             }
         } finally {
             setLoading(false);
@@ -76,7 +92,6 @@ function LoginForm() {
         <section className="auth-form">
             <h2 className="auth-form__title">Iniciar sesión</h2>
 
-            {/* ✅ Toast agregado */}
             <Toast
                 message={apiError || successMessage}
                 type={apiError ? 'error' : 'success'}
@@ -95,7 +110,9 @@ function LoginForm() {
                     onChange={(e) => setEmail(e.target.value)}
                 />
                 {errors.email && (
-                    <span className="auth-form__error">{errors.email}</span>
+                    <span className="auth-form__error">
+                        {errors.email}
+                    </span>
                 )}
 
                 <div className="auth-form__password">
