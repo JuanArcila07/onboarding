@@ -8,10 +8,14 @@ function LoginForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
     const [apiError, setApiError] = useState('');
 
+    /* ======================
+       VALIDACIONES
+    ====================== */
     const validate = () => {
         const newErrors = {};
 
@@ -27,28 +31,31 @@ function LoginForm() {
         }
 
         setErrors(newErrors);
-
         return Object.keys(newErrors).length === 0;
     };
 
+    /* ======================
+       SUBMIT + API
+    ====================== */
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setApiError('');
 
         const isValid = validate();
         if (!isValid) return;
 
-        setLoading(true);
-        setApiError('');
-
         try {
+            setLoading(true);
+
             const response = await login({
-                email,
+                emailOrUser: email, // CAMBIO CLAVE
                 password,
             });
 
             console.log('Login exitoso:', response);
 
-            
+            // 🔜 Más adelante:
+            // guardar usuario / redirigir
         } catch (error) {
             setApiError(error.message || 'Error al iniciar sesión');
         } finally {
@@ -91,13 +98,15 @@ function LoginForm() {
                     </button>
                 </div>
                 {errors.password && (
-                    <span className="auth-form__error">{errors.password}</span>
+                    <span className="auth-form__error">
+                        {errors.password}
+                    </span>
                 )}
 
                 {apiError && (
-                    <div className="auth-form__api-error">
+                    <span className="auth-form__error">
                         {apiError}
-                    </div>
+                    </span>
                 )}
 
                 <a href="#" className="auth-form__forgot">
