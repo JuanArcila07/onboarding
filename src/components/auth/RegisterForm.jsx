@@ -6,7 +6,7 @@ import { register } from '../../services/api';
 
 function RegisterForm() {
     const [email, setEmail] = useState('');
-    const [username, setUsername] = useState('');
+    const [user, setUser] = useState('');
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -29,8 +29,8 @@ function RegisterForm() {
             newErrors.email = 'El email no tiene un formato válido';
         }
 
-        if (!username.trim()) {
-            newErrors.username = 'El nombre de usuario es obligatorio';
+        if (!user.trim()) {
+            newErrors.user = 'El nombre de usuario es obligatorio';
         }
 
         if (!phone.trim()) {
@@ -69,12 +69,15 @@ function RegisterForm() {
         setApiError('');
 
         try {
-            const response = await register({
-                email,
-                username,
+            const data = {
+                email,   // CAMBIO CLAVE
+                user,
                 phone,
                 password,
-            });
+            };
+            console.log('Datos enviados al backend:', data);
+
+            const response = await register(data);
 
             console.log('Registro exitoso:', response);
 
@@ -108,12 +111,12 @@ function RegisterForm() {
                     className="auth-form__input"
                     type="text"
                     placeholder="Nombre de usuario"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    value={user}
+                    onChange={(e) => setUser(e.target.value)}
                 />
-                {errors.username && (
+                {errors.user && (
                     <span className="auth-form__error">
-                        {errors.username}
+                        {errors.user}
                     </span>
                 )}
 

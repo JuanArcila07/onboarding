@@ -1,9 +1,5 @@
-const API_URL = 'https://7wmbjxblzi.execute-api.us-east-1.amazonaws.com/';
+const API_URL = 'https://7wmbjxblzi.execute-api.us-east-1.amazonaws.com'; // sin slash final
 
-/**
- * Función base para peticiones POST
- * Centraliza fetch y manejo de errores
- */
 const post = async (endpoint, data) => {
   const response = await fetch(`${API_URL}${endpoint}`, {
     method: 'POST',
@@ -14,8 +10,9 @@ const post = async (endpoint, data) => {
   });
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Error en la petición');
+    const errorText = await response.text();
+    console.error('Respuesta error:', errorText);
+    throw new Error(errorText || 'Error en la petición');
   }
 
   return response.json();
