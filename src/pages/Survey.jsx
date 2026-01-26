@@ -1,10 +1,12 @@
-function Survey() {
-    return (
-        <div>
-            <h1>Encuesta</h1>
+import '../styles/survey/survey-layout.css';
+import SurveyForm from '../components/survey/SurveyForm';
 
-        </div>
-    );
+function Survey() {
+  return (
+    <main className="survey-page">
+      <SurveyForm />
+    </main>
+  );
 }
 
 export default Survey;
