@@ -3,6 +3,7 @@ import { useState } from 'react';
 import SocialLogin from './SocialLogin';
 import { login } from '../../services/api';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import Toast from '../ui/Toast';
 
 function LoginForm() {
     const [email, setEmail] = useState('');
@@ -12,6 +13,7 @@ function LoginForm() {
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
     const [apiError, setApiError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
 
     /* ======================
        VALIDACIONES
@@ -40,6 +42,7 @@ function LoginForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setApiError('');
+        setSuccessMessage('');
 
         const isValid = validate();
         if (!isValid) return;
@@ -48,16 +51,22 @@ function LoginForm() {
             setLoading(true);
 
             const response = await login({
-                emailOrUser: email, // CAMBIO CLAVE
+                emailOrUser: email, // 🔹 se mantiene igual
                 password,
             });
 
             console.log('Login exitoso:', response);
-
-            // 🔜 Más adelante:
-            // guardar usuario / redirigir
+            setSuccessMessage('Inicio de sesión exitoso. Bienvenido!'); // ✅ mensaje de éxito
         } catch (error) {
-            setApiError(error.message || 'Error al iniciar sesión');
+            const msg = error.message?.toLowerCase();
+
+            if (msg.includes('contraseña incorrecta')) {
+                setApiError('La contraseña ingresada no es válida. Intenta nuevamente.');
+            } else if (msg.includes('usuario no registrado')) {
+                setApiError('No encontramos tu usuario. Verifica los datos o regístrate.');
+            } else {
+                setApiError('No se pudo iniciar sesión. Por favor intenta más tarde.');
+            }
         } finally {
             setLoading(false);
         }
@@ -66,6 +75,16 @@ function LoginForm() {
     return (
         <section className="auth-form">
             <h2 className="auth-form__title">Iniciar sesión</h2>
+
+            {/* ✅ Toast agregado */}
+            <Toast
+                message={apiError || successMessage}
+                type={apiError ? 'error' : 'success'}
+                onClose={() => {
+                    setApiError('');
+                    setSuccessMessage('');
+                }}
+            />
 
             <form onSubmit={handleSubmit} noValidate>
                 <input
@@ -100,12 +119,6 @@ function LoginForm() {
                 {errors.password && (
                     <span className="auth-form__error">
                         {errors.password}
-                    </span>
-                )}
-
-                {apiError && (
-                    <span className="auth-form__error">
-                        {apiError}
                     </span>
                 )}
 
