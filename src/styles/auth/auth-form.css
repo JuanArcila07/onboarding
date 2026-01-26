@@ -54,3 +54,11 @@
     font-size: 15px;
     cursor: pointer;
 }
+
+.auth-form__error {
+  display: block;
+  font-size: 13px;
+  color: #f44336;
+  margin-top: 4px;
+  font-weight: 500;
+}

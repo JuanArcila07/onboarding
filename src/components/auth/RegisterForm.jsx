@@ -1,8 +1,9 @@
 import '../../styles/auth/auth-form.css';
 import { useState } from 'react';
 import SocialLogin from './SocialLogin';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { register } from '../../services/api';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import Toast from '../ui/Toast';
 
 function RegisterForm() {
     const [email, setEmail] = useState('');
@@ -15,6 +16,7 @@ function RegisterForm() {
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
     const [apiError, setApiError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
 
     const validateEmail = (email) => {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -42,16 +44,13 @@ function RegisterForm() {
         if (!password) {
             newErrors.password = 'La contraseña es obligatoria';
         } else if (password.length < 6) {
-            newErrors.password =
-                'La contraseña debe tener al menos 6 caracteres';
+            newErrors.password = 'La contraseña debe tener al menos 6 caracteres';
         }
 
         if (!confirmPassword) {
-            newErrors.confirmPassword =
-                'Debes confirmar la contraseña';
+            newErrors.confirmPassword = 'Debes confirmar la contraseña';
         } else if (password !== confirmPassword) {
-            newErrors.confirmPassword =
-                'Las contraseñas no coinciden';
+            newErrors.confirmPassword = 'Las contraseñas no coinciden';
         }
 
         setErrors(newErrors);
@@ -59,18 +58,45 @@ function RegisterForm() {
         return Object.keys(newErrors).length === 0;
     };
 
+    // Detecta cualquier mensaje de error relacionado con usuario/correo ya registrado
+    const isBackendError = (msg) => {
+        if (!msg) return false;
+        const lower = msg.toLowerCase();
+        return (
+            lower.includes('ya se encuentran registrados') ||
+            lower.includes('ya está en uso') ||
+            lower.includes('ya existe') ||
+            lower.includes('correo ya registrado') ||
+            lower.includes('correo ya está en uso') ||
+            lower.includes('correo ya existe') ||
+            lower.includes('email ya registrado') ||
+            lower.includes('email ya está en uso') ||
+            lower.includes('email ya existe') ||
+            lower.includes('usuario ya registrado') ||
+            lower.includes('usuario ya está en uso') ||
+            lower.includes('usuario ya existe') ||
+            lower.includes('el correo ya se encuentra registrado') ||
+            lower.includes('el usuario ya se encuentra registrado') ||
+            lower.includes('error') ||
+            lower.includes('no válido') ||
+            lower.includes('no permitido')
+        );
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        setApiError('');
+        setSuccessMessage('');
 
         const isValid = validate();
         if (!isValid) return;
 
         setLoading(true);
-        setApiError('');
 
         try {
             const data = {
-                email,   // CAMBIO CLAVE
+                email,
                 user,
                 phone,
                 password,
@@ -79,11 +105,21 @@ function RegisterForm() {
 
             const response = await register(data);
 
-            console.log('Registro exitoso:', response);
+            console.log('Respuesta del backend:', response);
 
-            // En el siguiente feature:
-            // - redirigir al login
-            // - mostrar mensaje de éxito
+            // Si el backend responde con un mensaje de error, lo mostramos como error
+            if (response?.message && isBackendError(response.message)) {
+                setApiError(response.message);
+                // NO limpiar campos ni mostrar éxito
+                return;
+            }
+
+            setSuccessMessage('¡Registro exitoso! Ahora puedes iniciar sesión.');
+            setEmail('');
+            setUser('');
+            setPhone('');
+            setPassword('');
+            setConfirmPassword('');
         } catch (error) {
             setApiError(error.message || 'Error al registrarse');
         } finally {
@@ -94,6 +130,16 @@ function RegisterForm() {
     return (
         <section className="auth-form">
             <h2 className="auth-form__title">Registro</h2>
+
+            {/* Toast para éxito y error */}
+            <Toast
+                message={apiError || successMessage}
+                type={apiError ? 'error' : 'success'}
+                onClose={() => {
+                    setApiError('');
+                    setSuccessMessage('');
+                }}
+            />
 
             <form onSubmit={handleSubmit} noValidate>
                 <input
@@ -156,41 +202,23 @@ function RegisterForm() {
                 <div className="auth-form__password">
                     <input
                         className="auth-form__input"
-                        type={
-                            showConfirmPassword ? 'text' : 'password'
-                        }
+                        type={showConfirmPassword ? 'text' : 'password'}
                         placeholder="Confirmar contraseña"
                         value={confirmPassword}
-                        onChange={(e) =>
-                            setConfirmPassword(e.target.value)
-                        }
+                        onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                     <button
                         type="button"
                         className="auth-form__toggle"
-                        onClick={() =>
-                            setShowConfirmPassword(
-                                !showConfirmPassword
-                            )
-                        }
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     >
-                        {showConfirmPassword ? (
-                            <FaEyeSlash />
-                        ) : (
-                            <FaEye />
-                        )}
+                        {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
                     </button>
                 </div>
                 {errors.confirmPassword && (
                     <span className="auth-form__error">
                         {errors.confirmPassword}
                     </span>
-                )}
-
-                {apiError && (
-                    <div className="auth-form__api-error">
-                        {apiError}
-                    </div>
                 )}
 
                 <button
