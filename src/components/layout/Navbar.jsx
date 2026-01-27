@@ -10,6 +10,8 @@ function Navbar() {
 
   const handleLogout = () => {
     setOpen(false);
+    localStorage.removeItem('user');
+    localStorage.removeItem('userSurvey');
     navigate('/login');
   };
 
