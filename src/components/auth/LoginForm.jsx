@@ -60,6 +60,10 @@ function LoginForm() {
 
             console.log('Login exitoso:', response);
 
+            // Después de login exitoso
+            localStorage.setItem('user', response.data.user);
+            localStorage.setItem('userSurvey', response.data.survey || '');
+
             setSuccessMessage('Inicio de sesión exitoso. Bienvenido!');
 
             // ✅ REDIRECCIÓN A ENCUESTA
