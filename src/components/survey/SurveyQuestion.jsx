@@ -1,30 +1,24 @@
-function SurveyQuestion({ number }) {
+function SurveyQuestion({ number, value, onChange, disabled }) {
   return (
     <div className="survey-question">
       <p className="survey-question__title">
         Pregunta {number}
       </p>
-
       <div className="survey-options">
-        <label>
-          <input type="radio" name={`q${number}`} />
-          A
-        </label>
-
-        <label>
-          <input type="radio" name={`q${number}`} />
-          B
-        </label>
-
-        <label>
-          <input type="radio" name={`q${number}`} />
-          C
-        </label>
-
-        <label>
-          <input type="radio" name={`q${number}`} />
-          D
-        </label>
+        {['A', 'B', 'C', 'D'].map((option) => (
+          <label key={option}>
+            <input
+              type="radio"
+              name={`q${number}`}
+              value={option}
+              checked={value === option}
+              onChange={() => onChange(number, option)}
+              required
+              disabled={disabled}
+            />
+            {option}
+          </label>
+        ))}
       </div>
     </div>
   );

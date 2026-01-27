@@ -31,3 +31,18 @@ export const login = (data) => {
 export const register = (data) => {
   return post('/register', data);
 };
+
+/**
+ * Enviar encuesta
+ */
+export const sendSurvey = (data) => {
+  return post('/survey', data);
+};
+
+export const getUser = async (user) => {
+  const response = await fetch(`${API_URL}/user/${encodeURIComponent(user)}`);
+  if (!response.ok) {
+    throw new Error('No se pudo consultar el usuario');
+  }
+  return response.json();
+};
