@@ -2,163 +2,128 @@ import '../../styles/auth/auth-form.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SocialLogin from './SocialLogin';
-import { login } from '../../services/api';
+import { login as loginApi } from '../../services/api';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import Toast from '../ui/Toast';
+import { useAuth } from '../../context/AuthContext';
 
 function LoginForm() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
-    const [errors, setErrors] = useState({});
-    const [loading, setLoading] = useState(false);
-    const [apiError, setApiError] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [apiError, setApiError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
-    const navigate = useNavigate(); // ✅ navegación
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-    /* ======================
-       VALIDACIONES
-    ====================== */
-    const validate = () => {
-        const newErrors = {};
+  const validate = () => {
+    const newErrors = {};
+    if (!email.trim()) newErrors.email = 'El email o usuario es obligatorio';
+    if (!password) newErrors.password = 'La contraseña es obligatoria';
+    else if (password.length < 6)
+      newErrors.password = 'La contraseña debe tener al menos 6 caracteres';
 
-        if (!email.trim()) {
-            newErrors.email = 'El email o usuario es obligatorio';
-        }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
-        if (!password) {
-            newErrors.password = 'La contraseña es obligatoria';
-        } else if (password.length < 6) {
-            newErrors.password =
-                'La contraseña debe tener al menos 6 caracteres';
-        }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setApiError('');
+    setSuccessMessage('');
 
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
+    if (!validate()) return;
 
-    /* ======================
-       SUBMIT + API
-    ====================== */
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setApiError('');
-        setSuccessMessage('');
+    try {
+      setLoading(true);
 
-        const isValid = validate();
-        if (!isValid) return;
+      const response = await loginApi({
+        emailOrUser: email,
+        password,
+      });
 
-        try {
-            setLoading(true);
+      console.log('Login exitoso:', response);
 
-            const response = await login({
-                emailOrUser: email, // 🔹 se mantiene igual
-                password,
-            });
+      // 👇 guardamos TODO el objeto data
+      login(response.data);
 
-            console.log('Login exitoso:', response);
+      localStorage.setItem('userSurvey', response.data.survey || '');
 
-            // Después de login exitoso
-            localStorage.setItem('user', response.data.user);
-            localStorage.setItem('userSurvey', response.data.survey || '');
+      setSuccessMessage('Inicio de sesión exitoso. Bienvenido!');
 
-            setSuccessMessage('Inicio de sesión exitoso. Bienvenido!');
+      setTimeout(() => {
+        navigate('/survey');
+      }, 1200);
 
-            // ✅ REDIRECCIÓN A ENCUESTA
-            setTimeout(() => {
-                navigate('/survey');
-            }, 1200);
+    } catch (error) {
+      const msg = error.message?.toLowerCase();
+      if (msg.includes('contraseña'))
+        setApiError('La contraseña ingresada no es válida.');
+      else if (msg.includes('usuario'))
+        setApiError('No encontramos tu usuario.');
+      else
+        setApiError('No se pudo iniciar sesión.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        } catch (error) {
-            const msg = error.message?.toLowerCase();
+  return (
+    <section className="auth-form">
+      <h2 className="auth-form__title">Iniciar sesión</h2>
 
-            if (msg.includes('contraseña incorrecta')) {
-                setApiError(
-                    'La contraseña ingresada no es válida. Intenta nuevamente.'
-                );
-            } else if (msg.includes('usuario no registrado')) {
-                setApiError(
-                    'No encontramos tu usuario. Verifica los datos o regístrate.'
-                );
-            } else {
-                setApiError(
-                    'No se pudo iniciar sesión. Por favor intenta más tarde.'
-                );
-            }
-        } finally {
-            setLoading(false);
-        }
-    };
+      <Toast
+        message={apiError || successMessage}
+        type={apiError ? 'error' : 'success'}
+        onClose={() => {
+          setApiError('');
+          setSuccessMessage('');
+        }}
+      />
 
-    return (
-        <section className="auth-form">
-            <h2 className="auth-form__title">Iniciar sesión</h2>
+      <form onSubmit={handleSubmit} noValidate>
+        <input
+          className="auth-form__input"
+          type="text"
+          placeholder="Email o nombre de usuario"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        {errors.email && <span className="auth-form__error">{errors.email}</span>}
 
-            <Toast
-                message={apiError || successMessage}
-                type={apiError ? 'error' : 'success'}
-                onClose={() => {
-                    setApiError('');
-                    setSuccessMessage('');
-                }}
-            />
+        <div className="auth-form__password">
+          <input
+            className="auth-form__input"
+            type={showPassword ? 'text' : 'password'}
+            placeholder="Contraseña"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button
+            type="button"
+            className="auth-form__toggle"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </button>
+        </div>
 
-            <form onSubmit={handleSubmit} noValidate>
-                <input
-                    className="auth-form__input"
-                    type="text"
-                    placeholder="Email o nombre de usuario"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                {errors.email && (
-                    <span className="auth-form__error">
-                        {errors.email}
-                    </span>
-                )}
+        {errors.password && (
+          <span className="auth-form__error">{errors.password}</span>
+        )}
 
-                <div className="auth-form__password">
-                    <input
-                        className="auth-form__input"
-                        type={showPassword ? 'text' : 'password'}
-                        placeholder="Contraseña"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
+        <button className="auth-form__button" type="submit" disabled={loading}>
+          {loading ? 'Ingresando...' : 'Iniciar sesión'}
+        </button>
 
-                    <button
-                        type="button"
-                        className="auth-form__toggle"
-                        onClick={() => setShowPassword(!showPassword)}
-                        aria-label="Mostrar u ocultar contraseña"
-                    >
-                        {showPassword ? <FaEyeSlash /> : <FaEye />}
-                    </button>
-                </div>
-                {errors.password && (
-                    <span className="auth-form__error">
-                        {errors.password}
-                    </span>
-                )}
-
-                <a href="#" className="auth-form__forgot">
-                    Olvidé mi contraseña
-                </a>
-
-                <button
-                    className="auth-form__button"
-                    type="submit"
-                    disabled={loading}
-                >
-                    {loading ? 'Ingresando...' : 'Iniciar sesión'}
-                </button>
-
-                <SocialLogin />
-            </form>
-        </section>
-    );
+        <SocialLogin />
+      </form>
+    </section>
+  );
 }
 
 export default LoginForm;

@@ -1,30 +1,40 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Survey from '../pages/Survey';
-import ProtectedRoute from './ProtectedRoute'; // <-- importa el nuevo componente
+import Profile from '../pages/Profile';
+
+import ProtectedRoute from './ProtectedRoute';
+import ProtectedLayout from '../components/layout/ProtectedLayout';
 
 function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
+
+        {/* 🔹 Ruta inicial */}
         <Route path="/" element={<Navigate to="/login" />} />
 
+        {/* 🔓 Públicas */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Ruta protegida */}
+        {/* 🔐 Protegidas */}
         <Route
-          path="/survey"
           element={
             <ProtectedRoute>
-              <Survey />
+              <ProtectedLayout />
             </ProtectedRoute>
           }
-        />
+        >
+          <Route path="/survey" element={<Survey />} />
+          <Route path="/profile" element={<Profile />} />
+        </Route>
 
-        {/* Ruta 404 */}
-        <Route path="*" element={<h1>404 - Página no encontrada</h1>} />
+        {/* 🚫 Cualquier otra ruta */}
+        <Route path="*" element={<Navigate to="/login" />} />
+
       </Routes>
     </BrowserRouter>
   );
