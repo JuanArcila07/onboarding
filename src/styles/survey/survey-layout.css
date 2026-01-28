@@ -1,80 +1,122 @@
+/* Fondo general */
 .survey-page {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #f5f5f5;
-}
-
-.survey-card {
-  width: 380px;
-  background: #ffffff;
-  border-radius: 16px;
+  background: #f8fafc;
   padding: 24px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 }
 
+/* Card principal */
+.survey-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* Header */
 .survey-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
-.survey-close {
-  background: none;
-  border: none;
+.survey-header h2 {
   font-size: 16px;
+  font-weight: 600;
+  color: #334155;
+}
+
+/* Botón cerrar */
+.survey-close {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  border: none;
+  font-size: 14px;
   cursor: pointer;
 }
 
+/* Campo fecha */
 .survey-field {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .survey-field label {
   display: block;
   font-size: 12px;
   margin-bottom: 6px;
-  color: #555;
+  color: #64748b;
 }
 
 .survey-field input {
   width: 100%;
-  padding: 8px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  font-size: 13px;
 }
 
+/* Preguntas */
 .survey-question {
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .survey-question__title {
-  font-size: 14px;
+  font-size: 13px;
   margin-bottom: 8px;
+  color: #334155;
 }
 
+/* Opciones */
 .survey-options {
   display: flex;
-  gap: 16px;
+  gap: 18px;
 }
 
 .survey-options label {
   font-size: 13px;
+  color: #475569;
 }
 
-.survey-submit {
-  padding: 10px 24px;
-  background: #ff6b00;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
+/* Acciones */
 .survey-actions {
   display: flex;
   justify-content: flex-end;
-  margin-top: 24px;
+  margin-top: 32px;
 }
+
+.survey-submit {
+  width: auto;              /* 👈 CLAVE */
+  min-width: 96px;
+  padding: 8px 20px;
+  background: #ff6b00;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.survey-submit:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+}
+
+.survey-field input[type="date"] {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  font-size: 13px;
+  color: #334155;
+  background-color: #fff;
+}
+

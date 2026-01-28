@@ -1,58 +1,33 @@
 .auth-info {
-    max-width: 420px;
-    display: flex;
-    flex-direction: column;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
 }
 
-/* LOGO */
-.auth-info__logo {
-    width: 120px;
-    margin-bottom: 64px;
-}
-
-/* CONTENIDO */
-.auth-info__content {
-    display: flex;
-    flex-direction: column;
-}
-
-/* TÍTULO PRINCIPAL */
+/* TÍTULO */
 .auth-info__title {
-    font-size: 48px;
-    font-weight: 700;
-    color: #1f1f1f;
-    margin-bottom: 12px;
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 12px;
 }
 
-/* TEXTO DESTACADO (Ingresa y disfruta / Te invitamos...) */
+/* SUBTÍTULO (NEGRILLA como Figma) */
 .auth-info__subtitle {
-    font-size: 18px;
-    font-weight: 600;
-    color: #1f1f1f;
-    margin-bottom: 24px;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 24px;
 }
 
-/* TEXTO NORMAL */
+/* TEXTO */
 .auth-info__text {
-    font-size: 14px;
-    font-weight: 400;
-    color: #6b6b6b;
-    margin-bottom: 40px;
+  font-size: 14px;
+  color: #6b6b6b;
+  line-height: 1.6;
 }
 
-/* LINK / BOTÓN */
+/* LINK */
 .auth-info__link {
-    background: none;
-    border: none;
-    padding: 0;
-    color: #ff6b00;
-    font-weight: 600;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-/* ILUSTRACIÓN */
-.auth-info__illustration {
-    margin-top: 48px;
-    max-width: 100%;
+  color: #ff6b00;
+  font-weight: 600;
+  text-decoration: none;
 }

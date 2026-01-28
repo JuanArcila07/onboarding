@@ -2,7 +2,15 @@
   display: flex;
   min-height: 100vh;
   padding: 0 80px;
-  box-sizing: border-box;
+  position: relative;
+}
+
+/* LOGO */
+.auth-logo {
+  position: absolute;
+  top: 32px;
+  left: 32px;
+  width: 120px;
 }
 
 /* COLUMNAS */
@@ -13,29 +21,23 @@
   display: flex;
 }
 
-/* INFO (izquierda) */
+/* INFO */
 .auth-left {
   justify-content: flex-start;
   align-items: flex-start;
-  padding-top: 100px;
+  padding-top: 180px;
 }
 
-/* ILUSTRACIÓN (centro, un poco más abajo) */
+/* ILUSTRACIÓN (más abajo como Figma) */
 .auth-center {
   justify-content: center;
   align-items: flex-start;
-  padding-top: 140px;
+  padding-top: 220px;
 }
 
-/* FORM (derecha, más arriba que la info) */
+/* FORM */
 .auth-right {
   justify-content: flex-end;
   align-items: flex-start;
-  padding-top: 40px;
-}
-
-/* ILUSTRACIÓN */
-.auth-illustration {
-  max-width: 100%;
-  height: auto;
+  padding-top: 120px;
 }

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import SurveyQuestion from './SurveyQuestion';
 import { sendSurvey } from '../../services/api';
 import Modal from '../ui/Modal';
+import '../../styles/survey/survey-form.css';
 
 function SurveyForm() {
   const [date, setDate] = useState('');
