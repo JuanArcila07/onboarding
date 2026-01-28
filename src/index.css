@@ -11,3 +11,11 @@ html, body {
   background-color: #ffffff;
   color: #1f1f1f;
 }
+
+/* --- Responsive global --- */
+@media (max-width: 600px) {
+  html, body {
+    font-size: 15px;
+    padding: 0;
+  }
+}

@@ -17,6 +17,20 @@
   animation-delay: 0s, 3.6s; /* entrada inmediata, salida justo antes del auto-cierre */
 }
 
+@media (max-width: 500px) {
+  .toast {
+    min-width: 0;
+    max-width: 95vw;
+    right: 2vw;
+    left: 2vw;
+    padding: 10px 8px;
+    font-size: 14px;
+  }
+  .toast__close {
+    font-size: 18px;
+  }
+}
+
 .toast.success {
   background: linear-gradient(135deg, #4caf50, #43a047);
 }

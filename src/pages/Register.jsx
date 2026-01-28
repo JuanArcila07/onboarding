@@ -1,8 +1,10 @@
 import AuthLayout from '../components/auth/AuthLayout';
 import RegisterInfo from '../components/auth/RegisterInfo';
 import RegisterForm from '../components/auth/RegisterForm';
+import useIllustrationScroll from '../hooks/useIllustrationScroll';
 
 function Register() {
+  useIllustrationScroll();
   return (
     <AuthLayout
       left={<RegisterInfo />}

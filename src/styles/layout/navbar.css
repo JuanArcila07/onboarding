@@ -8,6 +8,26 @@
   border-bottom: 1px solid #eaeaea;
 }
 
+@media (max-width: 600px) {
+  .navbar {
+    height: 56px;
+    padding: 0 10px;
+  }
+  .navbar__logo {
+    height: 26px;
+  }
+  .navbar__dropdown {
+    min-width: 120px;
+    right: 0;
+    top: 36px;
+    font-size: 13px;
+  }
+  .navbar__dropdown button {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+}
+
 .navbar__logo {
   height: 32px;
 }

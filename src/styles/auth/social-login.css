@@ -3,6 +3,20 @@
   text-align: center;
 }
 
+@media (max-width: 600px) {
+  .social-login {
+    margin-top: 20px;
+  }
+  .social-login__buttons {
+    gap: 10px;
+  }
+  .social-login__btn {
+    width: 38px;
+    height: 38px;
+    font-size: 16px;
+  }
+}
+
 .social-login__text {
   font-size: 13px;
   color: #9e9e9e;

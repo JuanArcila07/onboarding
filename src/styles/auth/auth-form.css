@@ -1,16 +1,16 @@
 .auth-form {
-  width: 360px;
-  background-color: #f9fafb;
-  padding: 32px;
-  border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  width: 420px;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 40px 32px;
+  box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.08);
 }
 
 .auth-form__title {
+  text-align: center;
   font-size: 22px;
   font-weight: 600;
   margin-bottom: 24px;
-  text-align: center;
 }
 
 .auth-form__input {
@@ -73,18 +73,17 @@
   font-weight: 500;
 }
 
-.auth-form {
-  width: 420px;
-  background: #ffffff;
-  border-radius: 24px;
-  padding: 40px 32px;
-  box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.08);
-}
+/* 📱 MOBILE */
+@media (max-width: 700px) {
+  .auth-form {
+    width: 100%;
+    max-width: 360px;
+    padding: 24px 16px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.07);
+  }
 
-.auth-form__title {
-  text-align: center;
-  font-size: 22px;
-  font-weight: 600;
-  margin-bottom: 24px;
+  .auth-form__title {
+    font-size: 18px;
+  }
 }
-

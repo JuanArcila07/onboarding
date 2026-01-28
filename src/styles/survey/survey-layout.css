@@ -8,6 +8,25 @@
   padding: 24px;
 }
 
+@media (max-width: 700px) {
+  .survey-page {
+    padding: 8px;
+    min-height: 100vh;
+    align-items: flex-start;
+  }
+  .survey-card {
+    max-width: 100%;
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+  }
+  .survey-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
 /* Card principal */
 .survey-card {
   width: 100%;

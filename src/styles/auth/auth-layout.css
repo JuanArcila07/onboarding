@@ -3,6 +3,7 @@
   min-height: 100vh;
   padding: 0 80px;
   position: relative;
+  background: #fff;
 }
 
 /* LOGO */
@@ -28,7 +29,7 @@
   padding-top: 180px;
 }
 
-/* ILUSTRACIÓN (más abajo como Figma) */
+/* ILUSTRACIÓN */
 .auth-center {
   justify-content: center;
   align-items: flex-start;
@@ -40,4 +41,66 @@
   justify-content: flex-end;
   align-items: flex-start;
   padding-top: 120px;
+}
+
+/* TABLET */
+@media (max-width: 900px) {
+  .auth-container {
+    padding: 0 16px;
+  }
+}
+
+/* 📱 MOBILE */
+@media (max-width: 700px) {
+  .auth-container {
+    flex-direction: column;
+    padding: 24px 16px;
+    min-height: 100vh;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .auth-logo {
+    position: static;
+    width: 100px;
+    margin-bottom: 24px;
+  }
+
+  .auth-left,
+  .auth-right {
+    width: 100%;
+    flex: none;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ❌ NO RESERVAR ESPACIO */
+  .auth-center {
+    display: none;
+  }
+}
+
+.auth-illustration {
+  width: 380px;
+}
+
+/* 📱 SOLO MOBILE */
+@media (max-width: 700px) {
+  .auth-illustration {
+    position: fixed;
+    bottom: -40px;
+    right: -40px;
+    width: 220px;
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+  }
+
+  body:has(.auth-container):not(:hover) .auth-illustration {
+    transform: scale(0.7);
+    opacity: 0.05;
+  }
 }

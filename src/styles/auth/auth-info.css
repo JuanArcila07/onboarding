@@ -11,7 +11,7 @@
   margin-bottom: 12px;
 }
 
-/* SUBTÍTULO (NEGRILLA como Figma) */
+/* SUBTÍTULO */
 .auth-info__subtitle {
   font-size: 20px;
   font-weight: 600;
@@ -30,4 +30,22 @@
   color: #ff6b00;
   font-weight: 600;
   text-decoration: none;
+}
+
+/* 📱 MOBILE */
+@media (max-width: 700px) {
+  .auth-info {
+    max-width: 100%;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .auth-info__title {
+    font-size: 32px;
+  }
+
+  .auth-info__subtitle {
+    font-size: 16px;
+  }
 }
