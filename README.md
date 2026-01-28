@@ -2,6 +2,9 @@
 
 Aplicación web desarrollada con **React** y **Vite** que implementa un flujo completo de **autenticación de usuarios** y **gestión de encuestas**, siguiendo buenas prácticas de desarrollo frontend moderno. Este proyecto fue realizado como **prueba técnica**, priorizando claridad en la arquitectura, reutilización de componentes y una experiencia de usuario alineada a un diseño en Figma.
 
+🚀 **Demo en producción:**  
+👉 https://onboarding-alpha-six.vercel.app
+
 ---
 
 ## 📑 Tabla de Contenidos
@@ -66,13 +69,11 @@ La aplicación maneja el estado de autenticación mediante **Context API** y per
 
 ## 🛠️ Requisitos previos
 
-Antes de ejecutar el proyecto, asegúrate de contar con:
+* **Node.js** (18 o superior recomendado)
+* **npm**
+* *(Opcional)* **Git**
 
-* **Node.js** (versión 18 o superior recomendada)
-* **npm** (incluido con Node.js)
-* *(Opcional)* **Git** para clonar el repositorio
-
-Verifica las versiones instaladas:
+Verifica tus versiones:
 
 ```bash
 node -v
@@ -83,20 +84,18 @@ npm -v
 
 ## 📦 Instalación
 
-1. **Clonar el repositorio** (opcional):
+1. Clona el repositorio (opcional):
 
    ```bash
    git clone https://github.com/JuanArcila07/onboarding.git
    cd onboarding
    ```
 
-2. **Instalar dependencias**:
+2. Instala las dependencias:
 
    ```bash
    npm install
    ```
-
-   Este comando instalará todas las dependencias definidas en `package.json`, incluyendo React, Vite, React Router, ESLint, y otros paquetes necesarios para el desarrollo y ejecución.
 
 ---
 
@@ -104,18 +103,18 @@ npm -v
 
 ```
 onboarding/
-├── public/                  # Archivos estáticos públicos
+├── public/
 ├── src/
-│   ├── assets/              # Imágenes y recursos
-│   ├── components/          # Componentes reutilizables (auth, layout, survey, ui)
-│   ├── context/             # Contextos globales (AuthContext)
-│   ├── pages/               # Vistas principales
-│   ├── router/              # Configuración de rutas
-│   ├── services/            # Consumo de API
-│   ├── styles/              # Estilos CSS por módulo
+│   ├── assets/
+│   ├── components/
+│   ├── context/
+│   ├── pages/
+│   ├── router/
+│   ├── services/
+│   ├── styles/
 │   ├── App.jsx
-│   ├── main.jsx             # Punto de entrada
-│   └── index.css            # Estilos globales
+│   ├── main.jsx
+│   └── index.css
 ├── index.html
 ├── package.json
 ├── vite.config.js
@@ -126,93 +125,77 @@ onboarding/
 
 ## ▶️ Ejecución en entorno local
 
-Para iniciar la aplicación en modo desarrollo:
+Inicia el servidor de desarrollo:
 
 ```bash
 npm run dev
 ```
 
-* El proyecto se ejecutará por defecto en:
+La aplicación estará disponible en:  
+👉 [http://localhost:5173](http://localhost:5173)
 
-  **[http://localhost:5173](http://localhost:5173)**
-
-* Incluye **Hot Module Replacement (HMR)**, por lo que los cambios se reflejan automáticamente en el navegador.
-
-* Puedes registrarte, iniciar sesión, responder encuestas y navegar entre las diferentes vistas protegidas y públicas.
+Incluye **Hot Module Replacement (HMR)** para recarga automática de cambios.
 
 ---
 
 ## 🏗️ Compilación para producción
 
-Para generar una versión optimizada de la aplicación:
+Genera una build optimizada:
 
 ```bash
 npm run build
 ```
 
-* Los archivos finales se generarán en la carpeta `dist/`
-* Esta carpeta puede desplegarse en cualquier servicio de hosting estático
-
-Previsualizar la build localmente:
+Previsualiza la build localmente:
 
 ```bash
 npm run preview
 ```
 
+Los archivos finales estarán en la carpeta `dist/` y pueden desplegarse en cualquier hosting estático.
+
 ---
 
 ## ✅ Calidad de código y linting
 
-El proyecto utiliza **ESLint** para asegurar consistencia y buenas prácticas.
-
-Ejecutar análisis de código:
+Analiza la calidad del código con ESLint:
 
 ```bash
 npm run lint
 ```
 
-Las reglas están definidas en `eslint.config.js` e incluyen recomendaciones para:
-
-* JavaScript moderno
-* React
-* Hooks
+Configurado con reglas para JavaScript moderno, React y Hooks.
 
 ---
 
 ## 🌐 Despliegue
 
-La aplicación puede desplegarse fácilmente en plataformas como:
+La aplicación está desplegada en **Vercel** con integración continua desde la rama `main`.
 
-* **Vercel**
-* **Netlify**
-* **Firebase Hosting**
-* **GitHub Pages**
+🌍 **Producción:**  
+👉 https://onboarding-alpha-six.vercel.app
 
-**URL del proyecto desplegado (opcional):**  
-👉 [https://tuproyecto-ejemplo.com](https://tuproyecto-ejemplo.com)
-
-*(Reemplazar por la URL real si aplica)*
+Cada push a `main` genera automáticamente un nuevo despliegue.
 
 ---
 
 ## 🧰 Tecnologías utilizadas
 
-* **React**
-* **Vite**
-* **React Router DOM**
-* **Context API**
-* **React Icons**
-* **ESLint**
-* **CSS modular y responsive**
+- **React**
+- **Vite**
+- **React Router DOM**
+- **Context API**
+- **ESLint**
+- **CSS modular y responsive**
 
 ---
 
 ## 👨‍💻 Autor
 
-Desarrollado por **Juan Arcila** como parte de una prueba técnica frontend.
+Desarrollado por **Juan Arcila** como prueba técnica frontend.
 
 Repositorio:  
-👉 [https://github.com/JuanArcila07/onboarding](https://github.com/JuanArcila07/onboarding)
+👉 https://github.com/JuanArcila07/onboarding
 
 ---
 
