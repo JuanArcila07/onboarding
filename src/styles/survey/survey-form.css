@@ -1,0 +1,41 @@
+.survey-card {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.survey-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.survey-header h2 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.survey-close {
+  border: none;
+  background: #f1f5f9;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+}
+
+.survey-submit {
+  width: 100%;
+  margin-top: 24px;
+  padding: 12px;
+  background: #ff6a00;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}

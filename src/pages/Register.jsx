@@ -1,26 +1,20 @@
-import '../styles/auth/auth-layout.css';
+import AuthLayout from '../components/auth/AuthLayout';
 import RegisterInfo from '../components/auth/RegisterInfo';
 import RegisterForm from '../components/auth/RegisterForm';
 
-function Register({ onChangeView }) {
+function Register() {
   return (
-    <main className="auth-container">
-      <div className="auth-left">
-        <RegisterInfo onChangeView={onChangeView} />
-      </div>
-
-      <div className="auth-center">
+    <AuthLayout
+      left={<RegisterInfo />}
+      center={
         <img
           src="/illustration.png"
           alt="Ilustración"
           className="auth-illustration"
         />
-      </div>
-
-      <div className="auth-right">
-        <RegisterForm />
-      </div>
-    </main>
+      }
+      right={<RegisterForm />}
+    />
   );
 }
 
