@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';
 import logo from '../../assets/logo.svg';
 import '../../styles/layout/navbar.css';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/useAuth';
 
 function Navbar() {
   const navigate = useNavigate();
@@ -12,21 +12,14 @@ function Navbar() {
 
   const handleLogout = () => {
     setOpen(false);
-    logout(); // 🔥 limpia contexto + localStorage
+    logout();
     navigate('/login');
   };
 
-  const handleProfile = () => {
-    setOpen(false);
-    navigate('/profile');
-  };
-
-  // 🛑 si no hay usuario, no mostramos menú
   if (!userData) return null;
 
   return (
     <header className="navbar">
-      {/* Logo */}
       <img
         src={logo}
         alt="Compensar"
@@ -35,7 +28,6 @@ function Navbar() {
         style={{ cursor: 'pointer' }}
       />
 
-      {/* Actions */}
       <div className="navbar__actions">
         <button
           className="navbar__icon"
@@ -46,19 +38,19 @@ function Navbar() {
         </button>
 
         {open && (
-        <div className="navbar__dropdown">
-          <button onClick={() => {
-            setOpen(false);
-            navigate('/profile');
-          }}>
-            Ver mi perfil
-          </button>
+          <div className="navbar__dropdown">
+            <button onClick={() => {
+              setOpen(false);
+              navigate('/profile');
+            }}>
+              Ver mi perfil
+            </button>
 
-          <button onClick={handleLogout}>
-            Cerrar sesión
-          </button>
-        </div>
-      )}
+            <button onClick={handleLogout}>
+              Cerrar sesión
+            </button>
+          </div>
+        )}
       </div>
     </header>
   );
