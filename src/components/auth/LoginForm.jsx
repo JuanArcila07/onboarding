@@ -5,7 +5,7 @@ import SocialLogin from './SocialLogin';
 import { login as loginApi } from '../../services/api';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import Toast from '../ui/Toast';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/useAuth';
 
 function LoginForm() {
   const [email, setEmail] = useState('');
@@ -48,7 +48,7 @@ function LoginForm() {
 
       console.log('Login exitoso:', response);
 
-      // 👇 guardamos TODO el objeto data
+      // ✅ solo login aquí
       login(response.data);
 
       localStorage.setItem('userSurvey', response.data.survey || '');
@@ -94,7 +94,6 @@ function LoginForm() {
           onChange={(e) => setEmail(e.target.value)}
         />
         {errors.email && <span className="auth-form__error">{errors.email}</span>}
-
 
         <div className="auth-form__password">
           <input

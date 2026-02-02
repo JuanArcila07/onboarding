@@ -1,6 +1,6 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 
-const AuthContext = createContext(null);
+export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
@@ -13,10 +13,21 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
+  /**
+   * 👉 SOLO para cuando el usuario inicia sesión
+   */
   const login = (data) => {
     setUserData(data);
     localStorage.setItem('userData', JSON.stringify(data));
-    localStorage.setItem('user', data.user); // 👈 mantiene compatibilidad
+    localStorage.setItem('user', data.user);
+  };
+
+  /**
+   * 👉 Para actualizar datos SIN volver a loguear
+   */
+  const updateUser = (data) => {
+    setUserData(data);
+    localStorage.setItem('userData', JSON.stringify(data));
   };
 
   const logout = () => {
@@ -27,10 +38,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ userData, login, logout }}>
+    <AuthContext.Provider
+      value={{ userData, login, updateUser, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
-
-export const useAuth = () => useContext(AuthContext);
