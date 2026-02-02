@@ -1,11 +1,14 @@
 import '../../styles/auth/auth-form.css';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // ✅ NUEVO (1)
 import SocialLogin from './SocialLogin';
 import { register } from '../../services/api';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import Toast from '../ui/Toast';
 
 function RegisterForm() {
+    const navigate = useNavigate(); // ✅ NUEVO (2)
+
     const [email, setEmail] = useState('');
     const [user, setUser] = useState('');
     const [phone, setPhone] = useState('');
@@ -54,11 +57,9 @@ function RegisterForm() {
         }
 
         setErrors(newErrors);
-
         return Object.keys(newErrors).length === 0;
     };
 
-    // Detecta cualquier mensaje de error relacionado con usuario/correo ya registrado
     const isBackendError = (msg) => {
         if (!msg) return false;
         const lower = msg.toLowerCase();
@@ -107,10 +108,8 @@ function RegisterForm() {
 
             console.log('Respuesta del backend:', response);
 
-            // Si el backend responde con un mensaje de error, lo mostramos como error
             if (response?.message && isBackendError(response.message)) {
                 setApiError(response.message);
-                // NO limpiar campos ni mostrar éxito
                 return;
             }
 
@@ -120,6 +119,12 @@ function RegisterForm() {
             setPhone('');
             setPassword('');
             setConfirmPassword('');
+
+            // ✅ REDIRECCIÓN SIN TOCAR NADA MÁS
+            setTimeout(() => {
+                navigate('/login');
+            }, 1500);
+
         } catch (error) {
             setApiError(error.message || 'Error al registrarse');
         } finally {
@@ -131,7 +136,6 @@ function RegisterForm() {
         <section className="auth-form">
             <h2 className="auth-form__title">Registro</h2>
 
-            {/* Toast para éxito y error */}
             <Toast
                 message={apiError || successMessage}
                 type={apiError ? 'error' : 'success'}
@@ -149,9 +153,7 @@ function RegisterForm() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
-                {errors.email && (
-                    <span className="auth-form__error">{errors.email}</span>
-                )}
+                {errors.email && <span className="auth-form__error">{errors.email}</span>}
 
                 <input
                     className="auth-form__input"
@@ -160,11 +162,7 @@ function RegisterForm() {
                     value={user}
                     onChange={(e) => setUser(e.target.value)}
                 />
-                {errors.user && (
-                    <span className="auth-form__error">
-                        {errors.user}
-                    </span>
-                )}
+                {errors.user && <span className="auth-form__error">{errors.user}</span>}
 
                 <input
                     className="auth-form__input"
@@ -173,9 +171,7 @@ function RegisterForm() {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                 />
-                {errors.phone && (
-                    <span className="auth-form__error">{errors.phone}</span>
-                )}
+                {errors.phone && <span className="auth-form__error">{errors.phone}</span>}
 
                 <div className="auth-form__password">
                     <input
@@ -193,11 +189,7 @@ function RegisterForm() {
                         {showPassword ? <FaEyeSlash /> : <FaEye />}
                     </button>
                 </div>
-                {errors.password && (
-                    <span className="auth-form__error">
-                        {errors.password}
-                    </span>
-                )}
+                {errors.password && <span className="auth-form__error">{errors.password}</span>}
 
                 <div className="auth-form__password">
                     <input
@@ -216,9 +208,7 @@ function RegisterForm() {
                     </button>
                 </div>
                 {errors.confirmPassword && (
-                    <span className="auth-form__error">
-                        {errors.confirmPassword}
-                    </span>
+                    <span className="auth-form__error">{errors.confirmPassword}</span>
                 )}
 
                 <button
