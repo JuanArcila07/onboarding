@@ -57,3 +57,14 @@
   padding: 3rem;
   color: #6b7280;
 }
+
+.profile,
+.profile__card,
+.profile__title,
+.profile__subtitle,
+.profile__section,
+.profile__row,
+.profile__empty,
+.profile__loading {
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+}

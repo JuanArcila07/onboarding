@@ -1,4 +1,15 @@
-/* Fondo general */
+/* ================================
+   RESET Y PROTECCIÓN GLOBAL
+================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ================================
+   FONDO GENERAL
+================================ */
 .survey-page {
   min-height: 100vh;
   display: flex;
@@ -8,26 +19,9 @@
   padding: 24px;
 }
 
-@media (max-width: 700px) {
-  .survey-page {
-    padding: 8px;
-    min-height: 100vh;
-    align-items: flex-start;
-  }
-  .survey-card {
-    max-width: 100%;
-    border-radius: 12px;
-    padding: 12px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.07);
-  }
-  .survey-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-}
-
-/* Card principal */
+/* ================================
+   CARD PRINCIPAL
+================================ */
 .survey-card {
   width: 100%;
   max-width: 420px;
@@ -35,9 +29,12 @@
   border-radius: 20px;
   padding: 24px;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+  overflow: hidden; /* 🔒 evita que la fecha se salga */
 }
 
-/* Header */
+/* ================================
+   HEADER
+================================ */
 .survey-header {
   display: flex;
   justify-content: space-between;
@@ -51,7 +48,9 @@
   color: #334155;
 }
 
-/* Botón cerrar */
+/* ================================
+   BOTÓN CERRAR
+================================ */
 .survey-close {
   width: 28px;
   height: 28px;
@@ -62,9 +61,13 @@
   cursor: pointer;
 }
 
-/* Campo fecha */
+/* ================================
+   CAMPO FECHA
+================================ */
 .survey-field {
   margin-bottom: 20px;
+  width: 100%;
+  overflow: hidden;
 }
 
 .survey-field label {
@@ -76,13 +79,33 @@
 
 .survey-field input {
   width: 100%;
+  max-width: 100%;
+  display: block;
   padding: 10px 12px;
   border-radius: 10px;
   border: 1px solid #e2e8f0;
   font-size: 13px;
+  color: #334155;
+  background-color: #ffffff;
 }
 
-/* Preguntas */
+/* 🔥 INPUT DATE DEFINITIVO */
+.survey-field input[type="date"] {
+  width: 100%;
+  max-width: 100%;
+  display: block;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  font-size: 13px;
+  color: #334155;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+/* ================================
+   PREGUNTAS
+================================ */
 .survey-question {
   margin-bottom: 18px;
 }
@@ -93,10 +116,13 @@
   color: #334155;
 }
 
-/* Opciones */
+/* ================================
+   OPCIONES
+================================ */
 .survey-options {
   display: flex;
   gap: 18px;
+  flex-wrap: wrap;
 }
 
 .survey-options label {
@@ -104,7 +130,9 @@
   color: #475569;
 }
 
-/* Acciones */
+/* ================================
+   ACCIONES
+================================ */
 .survey-actions {
   display: flex;
   justify-content: flex-end;
@@ -112,11 +140,11 @@
 }
 
 .survey-submit {
-  width: auto;              /* 👈 CLAVE */
+  width: auto;
   min-width: 96px;
   padding: 8px 20px;
   background: #ff6b00;
-  color: #fff;
+  color: #ffffff;
   border: none;
   border-radius: 8px;
   font-size: 13px;
@@ -129,13 +157,46 @@
   cursor: not-allowed;
 }
 
-.survey-field input[type="date"] {
-  width: 100%;
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
-  font-size: 13px;
-  color: #334155;
-  background-color: #fff;
+/* ================================
+   RESPONSIVE
+================================ */
+@media (max-width: 700px) {
+  .survey-page {
+    padding: 8px;
+    align-items: flex-start;
+  }
+
+  .survey-card {
+    max-width: 100%;
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+  }
+
+  .survey-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .survey-field label {
+    font-size: 11px;
+    margin-bottom: 4px;
+  }
+
+  .survey-field input[type="date"] {
+    font-size: 12px;
+    padding: 7px 8px;
+    border-radius: 7px;
+  }
 }
 
+.survey-page,
+.survey-card,
+.survey-header,
+.survey-field,
+.survey-question,
+.survey-options,
+.survey-actions {
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+}
