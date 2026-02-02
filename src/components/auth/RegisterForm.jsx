@@ -226,7 +226,7 @@ function RegisterForm() {
                     type="submit"
                     disabled={loading}
                 >
-                    {loading ? 'Registrando...' : 'Regístrate'}
+                    {loading ? 'Registrando...' : 'Registrarte'}
                 </button>
 
                 <SocialLogin />

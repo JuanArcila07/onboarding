@@ -164,7 +164,7 @@ Analiza la calidad del código con ESLint:
 npm run lint
 ```
 
-Configurado con reglas para JavaScript moderno, React y Hooks.
+Configurado con reglas para JavaScript moderno y React.
 
 ---
 

@@ -14,7 +14,7 @@ function LoginInfo() {
         Si aún no tienes una cuenta <br />
         puedes{' '}
         <Link to="/register" className="auth-info__link">
-          Registrarte aquí
+          <span style={{ fontWeight: 600 }}>Registrarte aquí</span>
         </Link>
       </p>
     </section>

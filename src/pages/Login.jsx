@@ -1,11 +1,9 @@
 import AuthLayout from '../components/auth/AuthLayout';
 import LoginInfo from '../components/auth/LoginInfo';
 import LoginForm from '../components/auth/LoginForm';
-import useIllustrationScroll from '../hooks/useIllustrationScroll';
 
 
 function Login() {
-   useIllustrationScroll();
 
   return (
     <AuthLayout

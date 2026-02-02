@@ -95,6 +95,7 @@ function LoginForm() {
         />
         {errors.email && <span className="auth-form__error">{errors.email}</span>}
 
+
         <div className="auth-form__password">
           <input
             className="auth-form__input"
@@ -111,6 +112,8 @@ function LoginForm() {
             {showPassword ? <FaEyeSlash /> : <FaEye />}
           </button>
         </div>
+
+        <a href="#" className="auth-form__forgot">Olvide mi contraseña</a>
 
         {errors.password && (
           <span className="auth-form__error">{errors.password}</span>
