@@ -1,4 +1,4 @@
-const API_URL = 'https://7wmbjxblzi.execute-api.us-east-1.amazonaws.com';
+const API_URL = 'http://localhost:3000/api';
 
 /**
  * 🔎 Interpreta TODAS las respuestas del backend
@@ -77,22 +77,14 @@ const get = async (endpoint) => {
 
 // =======================
 // AUTH
-// =======================
-export const login = (data) => post('/login', data);
-export const register = (data) => post('/register', data);
+export const login = (data) => post('/auth/login', data);
+export const register = (data) => post('/auth/register', data);
 
-// =======================
 // SURVEY
-// =======================
-export const sendSurvey = (data) => post('/survey', data);
+export const sendSurvey = (data) => post('/survey/submit', data);
 
-// =======================
 // USERS
-// =======================
-
-// GET /user/:user
 export const getUser = (user) =>
-  get(`/user/${encodeURIComponent(user)}`);
+  get(`/user/getUser?user=${encodeURIComponent(user)}`);
 
-// GET /
-export const getAllUsers = () => get('/');
+export const getAllUsers = () => get('/user/getAll');

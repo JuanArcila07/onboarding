@@ -85,7 +85,7 @@ function Profile() {
 
           <div className="profile__row">
             <span>Email</span>
-            <strong>{data.mail}</strong>
+            <strong>{data.email}</strong>
           </div>
 
           <div className="profile__row">

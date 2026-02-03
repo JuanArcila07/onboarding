@@ -1,6 +1,8 @@
 # Onboarding App
 
-Aplicación web desarrollada con **React** y **Vite** que implementa un flujo completo de **autenticación de usuarios** y **gestión de encuestas**, siguiendo buenas prácticas de desarrollo frontend moderno. Este proyecto fue realizado como **prueba técnica**, priorizando claridad en la arquitectura, reutilización de componentes y una experiencia de usuario alineada a un diseño en Figma.
+Aplicación web fullstack desarrollada con **React + Vite** en el frontend y **Node.js + MongoDB** en el backend, que implementa un flujo completo de **autenticación de usuarios**, **protección de rutas** y **gestión de encuestas persistentes**, utilizando una base de datos **no relacional**.
+
+Este proyecto fue realizado como **prueba técnica**, priorizando arquitectura limpia, buenas prácticas, seguridad básica y una experiencia de usuario coherente con el diseño entregado en Figma.
 
 🚀 **Demo en producción:**  
 👉 https://onboarding-alpha-six.vercel.app
@@ -9,69 +11,124 @@ Aplicación web desarrollada con **React** y **Vite** que implementa un flujo co
 
 ## 📑 Tabla de Contenidos
 
-* [Descripción general](#descripción-general)
-* [Características principales](#características-principales)
-* [Requisitos previos](#requisitos-previos)
-* [Instalación](#instalación)
-* [Estructura del proyecto](#estructura-del-proyecto)
-* [Ejecución en entorno local](#ejecución-en-entorno-local)
-* [Compilación para producción](#compilación-para-producción)
-* [Calidad de código y linting](#calidad-de-código-y-linting)
-* [Despliegue](#despliegue)
-* [Tecnologías utilizadas](#tecnologías-utilizadas)
-* [Autor](#autor)
+- [Descripción general](#descripción-general)
+- [Arquitectura general](#arquitectura-general)
+- [Características principales](#características-principales)
+- [Modelo de datos](#modelo-de-datos)
+- [Requisitos previos](#requisitos-previos)
+- [Instalación](#instalación)
+- [Variables de entorno](#variables-de-entorno)
+- [Ejecución en entorno local](#ejecución-en-entorno-local)
+- [Protección de rutas y seguridad](#protección-de-rutas-y-seguridad)
+- [Estructura del proyecto](#estructura-del-proyecto)
+- [Compilación para producción](#compilación-para-producción)
+- [Tecnologías utilizadas](#tecnologías-utilizadas)
+- [Autor](#autor)
 
 ---
 
 ## 🧩 Descripción general
 
-**Onboarding App** es una aplicación web que permite a los usuarios:
+**Onboarding App** permite a los usuarios:
 
-* Registrarse e iniciar sesión
-* Acceder a rutas protegidas
-* Completar una encuesta estructurada
-* Visualizar información de perfil
+- Registrarse e iniciar sesión
+- Acceder únicamente a rutas protegidas
+- Completar una encuesta una sola vez
+- Visualizar su perfil con información persistente
+- Cerrar sesión de forma segura
 
-La aplicación maneja el estado de autenticación mediante **Context API** y persiste la información clave utilizando **LocalStorage**, sin realizar modificaciones en el backend proporcionado.
+El estado de autenticación se gestiona mediante **Context API** en el frontend, mientras que la persistencia de datos se maneja a través de un **backend propio con MongoDB**, asegurando que la información sobreviva a recargas, cierres de sesión y nuevos inicios.
+
+---
+
+## 🏗️ Arquitectura general
+
+```
+Frontend (React + Vite)
+│
+│ HTTP (REST API)
+▼
+Backend (Node.js)
+│
+▼
+MongoDB (Base de datos NoSQL)
+```
+
+- **Frontend:** Maneja UI, validaciones, navegación y estado de sesión.
+- **Backend:** Gestiona autenticación, encuestas y persistencia.
+- **Base de datos:** MongoDB almacena usuarios y encuestas sin relaciones rígidas.
 
 ---
 
 ## ✨ Características principales
 
-* 🔐 **Autenticación de usuarios**
-  * Registro, inicio de sesión y cierre de sesión
-  * Persistencia de sesión con LocalStorage
+### 🔐 Autenticación
+- Registro de usuarios
+- Inicio y cierre de sesión
+- Persistencia de sesión
+- Protección de rutas privadas
 
-* 🛡️ **Protección de rutas**
-  * Acceso restringido a vistas privadas mediante layouts y rutas protegidas
+### 🛡️ Protección de rutas
+- Acceso restringido mediante `ProtectedRoute`
+- Redirección automática si el usuario no está autenticado
+- Prevención de navegación con botón “atrás” tras logout
 
-* 📝 **Gestión de encuestas**
-  * Selección de fecha
-  * Preguntas de opción múltiple
-  * Validación de respuestas
-  * Prevención de envíos duplicados
+### 📝 Gestión de encuestas
+- Encuesta de una sola respuesta por usuario
+- Selección de fecha
+- Preguntas de opción múltiple
+- Persistencia completa en base de datos
+- Bloqueo de reenvíos
 
-* 👤 **Perfil de usuario**
-  * Visualización de datos básicos y estado de la encuesta
+### 👤 Perfil de usuario
+- Visualización de:
+  - Usuario
+  - Email
+  - Teléfono
+  - Estado y resultados de la encuesta
+- Datos cargados directamente desde la base de datos
 
-* ♻️ **Arquitectura modular**
-  * Componentes reutilizables
-  * Separación clara entre lógica, UI y estilos
+### ♻️ Arquitectura limpia
+- Separación clara entre:
+  - Componentes
+  - Rutas
+  - Contextos
+  - Servicios (API)
+  - Estilos
 
-* 🎨 **Estilos modernos y responsivos**
-  * CSS modularizado
-  * Diseño fiel al Figma proporcionado
+---
 
-* 🔔 **Feedback visual**
-  * Modales y notificaciones para acciones del usuario
+## 🗃️ Modelo de datos
+
+### Usuario (`User`)
+```js
+{
+  user: String,
+  email: String,
+  password: String,
+  phone: String,
+  surveyCompleted: Boolean,
+  survey: String
+}
+```
+### Encuesta (`Survey`)
+```js
+{
+  user: String,
+  survey: String,
+  createdAt: Date
+}
+```
+MongoDB permite almacenar la encuesta como un objeto flexible sin necesidad de esquemas relacionales.
 
 ---
 
 ## 🛠️ Requisitos previos
 
-* **Node.js** (18 o superior recomendado)
-* **npm**
-* *(Opcional)* **Git**
+- **Node.js** 18 o superior
+- **npm**
+- **MongoDB** (local o Atlas)
+- *(Opcional)* **Git**
 
 Verifica tus versiones:
 
@@ -84,7 +141,7 @@ npm -v
 
 ## 📦 Instalación
 
-1. Clona el repositorio (opcional):
+1. Clona el repositorio:
 
    ```bash
    git clone https://github.com/JuanArcila07/onboarding.git
@@ -96,6 +153,58 @@ npm -v
    ```bash
    npm install
    ```
+
+---
+
+## 🔐 Variables de entorno
+
+Crea un archivo `.env` en el backend:
+
+```
+MONGODB_URI=your_mongodb_connection_string
+```
+
+Ejemplo (MongoDB Atlas):
+
+```
+MONGODB_URI=mongodb+srv://user:password@cluster.mongodb.net/onboarding
+```
+
+---
+
+## ▶️ Ejecución en entorno local
+
+### Frontend
+
+```bash
+npm run dev
+```
+
+📍 Disponible en:  
+👉 http://localhost:5173
+
+### Backend
+
+```bash
+npm run dev
+```
+
+📍 API disponible en:  
+👉 http://localhost:3000/api
+
+Incluye **Hot Module Replacement (HMR)** para recarga automática de cambios en el frontend.
+
+---
+
+## 🔒 Protección de rutas y seguridad
+
+Las rutas privadas (`/survey`, `/profile`) están protegidas mediante `ProtectedRoute`.
+
+Si el usuario no está autenticado:
+
+- No puede acceder por URL directa
+- No puede volver usando el botón “atrás”
+- El logout elimina el historial de navegación usando `replace`
 
 ---
 
@@ -115,26 +224,16 @@ onboarding/
 │   ├── App.jsx
 │   ├── main.jsx
 │   └── index.css
+├── api/
+│   ├── auth/
+│   ├── survey/
+│   ├── models/
+│   └── lib/
 ├── index.html
 ├── package.json
 ├── vite.config.js
 └── README.md
 ```
-
----
-
-## ▶️ Ejecución en entorno local
-
-Inicia el servidor de desarrollo:
-
-```bash
-npm run dev
-```
-
-La aplicación estará disponible en:  
-👉 [http://localhost:5173](http://localhost:5173)
-
-Incluye **Hot Module Replacement (HMR)** para recarga automática de cambios.
 
 ---
 
@@ -156,43 +255,26 @@ Los archivos finales estarán en la carpeta `dist/` y pueden desplegarse en cual
 
 ---
 
-## ✅ Calidad de código y linting
-
-Analiza la calidad del código con ESLint:
-
-```bash
-npm run lint
-```
-
-Configurado con reglas para JavaScript moderno y React.
-
----
-
-## 🌐 Despliegue
-
-La aplicación está desplegada en **Vercel** con integración continua desde la rama `main`.
-
-🌍 **Producción:**  
-👉 https://onboarding-alpha-six.vercel.app
-
-Cada push a `main` genera automáticamente un nuevo despliegue.
-
----
-
 ## 🧰 Tecnologías utilizadas
 
+### Frontend
 - **React**
 - **Vite**
 - **React Router DOM**
 - **Context API**
-- **ESLint**
 - **CSS modular y responsive**
+
+### Backend
+- **Node.js**
+- **MongoDB**
+- **Mongoose**
+- **REST API**
 
 ---
 
 ## 👨‍💻 Autor
 
-Desarrollado por **Juan Arcila** como prueba técnica frontend.
+Desarrollado por **Juan Arcila** como prueba técnica fullstack.
 
 Repositorio:  
 👉 https://github.com/JuanArcila07/onboarding

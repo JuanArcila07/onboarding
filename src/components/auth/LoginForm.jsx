@@ -51,6 +51,8 @@ function LoginForm() {
       // ✅ solo login aquí
       login(response.data);
 
+      // ✅ ESTO ES LO QUE FALTABA
+      localStorage.setItem('user', response.data.user);
       localStorage.setItem('userSurvey', response.data.survey || '');
 
       setSuccessMessage('Inicio de sesión exitoso. Bienvenido!');
