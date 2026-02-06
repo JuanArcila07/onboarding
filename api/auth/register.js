@@ -1,6 +1,7 @@
 import { withCors } from '../lib/cors.js';
 import { connectDB } from '../lib/db.js';
 import User from '../models/user.js';
+import { hashPassword } from '../lib/auth.js';
 
 const handler = async (req, res) => {
   try {
@@ -26,11 +27,13 @@ const handler = async (req, res) => {
       return res.status(400).json({ message: 'Usuario ya existe' });
     }
 
+    const hashedPassword = hashPassword(password);
+
     const newUser = await User.create({
       email,
       user,
       phone,
-      password,
+      password: hashedPassword,
       surveyCompleted: false,
     });
 
