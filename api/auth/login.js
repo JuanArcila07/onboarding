@@ -1,6 +1,7 @@
 import { withCors } from '../lib/cors.js';
 import { connectDB } from '../lib/db.js';
 import User from '../models/user.js';
+import { comparePassword } from '../lib/auth.js';
 
 const handler = async (req, res) => {
   if (req.method !== 'POST') {
@@ -23,7 +24,7 @@ const handler = async (req, res) => {
     return res.status(404).json({ message: 'Usuario no encontrado' });
   }
 
-  if (user.password !== password) {
+  if (!comparePassword(password, user.password)) {
     return res.status(401).json({ message: 'Contraseña no válida' });
   }
 

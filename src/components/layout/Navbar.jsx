@@ -13,7 +13,7 @@ function Navbar() {
   const handleLogout = () => {
     setOpen(false);
     logout();
-    navigate('/login');
+    navigate('/login', { replace: true }); // <--- Esto evita volver atrás
   };
 
   if (!userData) return null;

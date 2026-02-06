@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useAuth } from '../../context/useAuth';
 import { useNavigate } from 'react-router-dom';
 import SurveyQuestion from './SurveyQuestion';
 import { sendSurvey } from '../../services/api';
@@ -6,6 +7,7 @@ import Modal from '../ui/Modal';
 import '../../styles/survey/survey-form.css';
 
 function SurveyForm() {
+  const { logout, userData } = useAuth();
   const [date, setDate] = useState('');
   const [answers, setAnswers] = useState({});
   const [loading, setLoading] = useState(false);
@@ -13,6 +15,13 @@ function SurveyForm() {
   const [message, setMessage] = useState('');
   const [alreadyAnswered, setAlreadyAnswered] = useState(false);
   const navigate = useNavigate();
+
+  // Redirige a login si no hay usuario
+  useEffect(() => {
+    if (!userData) {
+      navigate('/login', { replace: true });
+    }
+  }, [userData, navigate]);
 
   // Al montar, revisa si ya respondió (usando localStorage)
   useEffect(() => {
@@ -88,16 +97,14 @@ function SurveyForm() {
 
   // Cerrar sesión y redirigir al login
   const handleLogout = () => {
-    localStorage.removeItem('user');
-    localStorage.removeItem('userSurvey');
-    navigate('/login');
+    logout();
+    navigate('/login', { replace: true });
   };
 
   return (
     <section className="survey-card">
       <header className="survey-header">
         <h2>Encuesta</h2>
-        <button className="survey-close" onClick={handleLogout}>✕</button>
       </header>
 
       <form onSubmit={handleSubmit}>

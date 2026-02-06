@@ -1,4 +1,7 @@
-const API_URL = 'http://localhost:3000/api';
+const API_URL =
+  import.meta.env.PROD
+    ? 'https://onboarding-alpha-six.vercel.app/api'
+    : 'http://localhost:3000/api';
 
 /**
  * 🔎 Interpreta TODAS las respuestas del backend
